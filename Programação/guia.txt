@@ -21,3 +21,5 @@ https://www.django-rest-framework.org/api-guide/views/#class-based-views
 https://www.edureka.co/community/73316/how-to-return-custom-json-in-django-rest-framework
 https://data-flair.training/blogs/django-views/
 https://simpleisbetterthancomplex.com/tutorial/2016/07/27/how-to-return-json-encoded-response.html
+https://simpleisbetterthancomplex.com/tutorial/2018/02/03/how-to-use-restful-apis-with-django.html
+https://dev.to/yahaya_hk/how-to-populate-your-database-with-data-from-an-external-api-in-django-398i
