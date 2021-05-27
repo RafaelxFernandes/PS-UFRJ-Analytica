@@ -1,13 +1,12 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from django.http import JsonResponse
 
-from .serializers import NomeSerializador
-from .models import Nome
-
-
-# Tarefa 1 - /hello
-# View para a model Nome
-# Mostra "Olá mundo! Sou eu, <SEU NOME>!"
-class NomeViewSet(viewsets.ModelViewSet):
-    queryset = Nome.objects
-    serializer_class = NomeSerializador
+# Tarefa 1
+# Rota GET /hello
+# Retorna o seguinte JSON
+# {
+#   'hello': "Olá mundo! Sou eu, Rafael Fernandes!"
+# }
+def hello(request):
+    data = { 'hello': 'Olá mundo! Sou eu, Rafael Fernandes!' }
+    return JsonResponse(data)
