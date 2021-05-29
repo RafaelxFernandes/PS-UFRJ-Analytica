@@ -15,4 +15,9 @@ urlpatterns = [
     # Tarefa 2
     # Rota GET /recipe
     path('recipe', views.recipe, name = "recipe"),
+
+    # Tarefa 3
+    # Rota POST /age
+    path('age', views.age, name = "age"),
+    # path('age', views.PersonAgeView.age, name = "age"),
 ]
