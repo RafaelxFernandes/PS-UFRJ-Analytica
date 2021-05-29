@@ -4,7 +4,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.views import APIView
+
 from rest_framework.decorators import api_view
+from rest_framework.decorators import parser_classes
+from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+
 
 from datetime import date
 
@@ -96,29 +101,12 @@ def calculate_age(birthdate, random_date):
     return [age_now, age_then]
 
 
-# Rota POST /age
+# Rota POST /age    
+@api_view(['POST'])
+@parser_classes([JSONParser])
+
 # Necessário por conta de erro CSRF no Insomnia
-
 @csrf_exempt
-def age(request):
-
-    data=json.loads(request.body)    
-
-    return data
-
-
-
+def age(request, format=None):
     
-# class PersonAgeView(APIView):
-
-#     @api_view(['POST'])
-    
-    # Necessário por conta de erro CSRF no Insomnia
-#     @csrf_exempt
-#     def age(request):
-
-#         serializer = PersonAgeSerializer(data = request.data)
-#         serializer.is_valid(raise_exception = True)
-#         serializer.save()
-        
-#         return JsonResponse(serializer.data, safe=False)
+    return Response({'received data': request.data})
