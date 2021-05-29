@@ -1,25 +1,22 @@
 # -*- coding: utf-8 -*-
 
+# Foi necessário rodar no terminal o comando
+# pip install requests
+import requests
+import json
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
-from rest_framework.views import APIView
 
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser
+
 from rest_framework.response import Response
 
 
 from datetime import date
 
-from .serializers import PersonAgeSerializer
-
-# Foi necessário rodar no terminal o comando
-# pip install requests
-import requests
-
-import json
 
 # Tarefa 1
 # Rota GET /hello

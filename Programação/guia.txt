@@ -25,3 +25,4 @@ https://simpleisbetterthancomplex.com/tutorial/2018/02/03/how-to-use-restful-api
 https://dev.to/yahaya_hk/how-to-populate-your-database-with-data-from-an-external-api-in-django-398i
 https://docs.python.org/pt-br/3/library/datetime.html
 https://www.geeksforgeeks.org/python-program-to-calculate-age-in-year/
+https://www.django-rest-framework.org/api-guide/parsers/
