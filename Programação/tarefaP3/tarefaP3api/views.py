@@ -11,9 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser
-
 from rest_framework.response import Response
-
 
 from datetime import date
 
@@ -52,7 +50,7 @@ def recipe(request):
         query = request.GET['q']
 
         # Recipe Puppy API
-        url = "http://www.recipepuppy.com/api/?i=" + str(ingredients) + "&q=" + str(query)
+        url = "http://www.recipepuppy.com/api/?i=" + ingredients + "&q=" + query
         response = requests.get(url)
         data = response.json()
 
@@ -105,5 +103,25 @@ def calculate_age(birthdate, random_date):
 # Necessário por conta de erro CSRF no Insomnia
 @csrf_exempt
 def age(request, format=None):
+
+    name = request.data["name"]
+
+    birthdate_year = int(request.data["birthdate"].split("-")[0])
+    birthdate_month = int(request.data["birthdate"].split("-")[1])
+    birthdate_day = int(request.data["birthdate"].split("-")[2])
+
+    random_date_year = int(request.data["random_date"].split("-")[0])
+    random_date_month = int(request.data["random_date"].split("-")[1])
+    random_date_day = int(request.data["random_date"].split("-")[2])
+
+    age_now, age_then = calculate_age(date(birthdate_year, birthdate_month, birthdate_day), date(random_date_year, random_date_month, random_date_day))
     
-    return Response({'received data': request.data})
+    quote = "Olá, " + name + "! Você tem " + str(age_now) + " anos e em " + str(random_date_day) + "/" + str(random_date_month) + "/" + str(random_date_year) + " você terá " + str(age_then) + " anos."
+    
+    response = {
+        'quote': quote,
+        'ageNow': age_now,
+        'ageThen': age_then
+    }
+
+    return Response(response)
