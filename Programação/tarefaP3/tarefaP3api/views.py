@@ -64,6 +64,11 @@ def recipe(request):
             'results': receitas
         }
 
+        # Mensagem caso não haja receitas com os parâmetros passados pelo usuário
+        if resultado["results"] == []:
+            return JsonResponse("Não há receitas com os ingredientes e query passada.", safe=False)
+
+
         return JsonResponse(resultado)
 
 
@@ -80,7 +85,7 @@ def recipe(request):
 # }
 
 # Função para calcular a idade em anos
-# Recebe como parâmetros a data de aniversário da pessoa, e uma data qualquer
+# Recebe como parâmetros a data de aniversário da pessoa, e uma data aleatória
 def calculate_age(birthdate, random_date):
 
     # Data de quando esse programa é executado
@@ -90,7 +95,7 @@ def calculate_age(birthdate, random_date):
     # Idade no dia de hoje
     age_now = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
     
-    # Idade na data qualquer passada
+    # Idade na data aleatória passada
     age_then = random_date.year - birthdate.year - ((random_date.month, random_date.day) < (birthdate.month, birthdate.day))
     
     return [age_now, age_then]
@@ -151,6 +156,7 @@ def age(request, format=None):
     if birthdate_day > 31:
         return Response("Erro no parâmetro birthdate. O formato das datas a serem passadas é YYYY-MM-DD, e o valor do dia passado é maior do que 31.")
 
+
     # O parâmetro random_date, assim como o birthdate acima, é tratado como uma string no formato YYYY-MM-DD
     # Dessa forma, utilizo a função split para separar corretamente YYYY, MM e DD
     # Usando "-" como parâmetro para a divisão
@@ -169,14 +175,10 @@ def age(request, format=None):
     # Mensagem de erro caso o dia não tenha sido passado como terceiro na data aleatória
     if random_date_day > 31:
         return Response("Erro no parâmetro random_date. O formato das datas a serem passadas é YYYY-MM-DD, e o valor do dia passado é maior do que 31.")
-    
-    # Mensagem de erro caso a data aleatória passada não seja depois da data de aniversário
-    if date(random_date_year, random_date_month, random_date_day) <= date(birthdate_year, birthdate_month, birthdate_day):
-        return Response("Erro no parâmetro random_state. Data passada não encontra-se após a data passada no parâmetro birthdate.")
 
     # Mensagem de erro caso a data aleatória passada não seja depois da data em que a requisição for feita
-    # if date(random_date_year, random_date_month, random_date_day) <= datetime.now().date():
-        # return Response("Erro no parâmetro random_state. Data passada não encontra-se após a data de hoje.")
+    if date(random_date_year, random_date_month, random_date_day) <= datetime.now().date():
+        return Response("Erro no parâmetro random_state. Data passada não encontra-se após a data de hoje.")
 
 
     # Cálculo da idade que a pessoa tem no momento da requisição e que ela terá na data do futuro
