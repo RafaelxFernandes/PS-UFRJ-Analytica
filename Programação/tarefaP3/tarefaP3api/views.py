@@ -36,11 +36,11 @@ def recipe(request):
 
     # Mensagem de erro caso o parâmetro "i" não tenha sido passado
     if 'i' not in request.GET:
-        return JsonResponse("Ausência do parâmetro 'i'. Necessário acrescentar pelo menos 1 ingrediente", safe=False)
+        return JsonResponse("Erro na requisição: ausência do parâmetro 'i'.", safe=False)
 
     # Mensagem de erro caso o parâmetro "q" não tenha sido passado
     if 'q' not in request.GET:
-        return JsonResponse("Ausência do parâmetro 'q'. Necessário acrescentar query", safe=False)
+        return JsonResponse("Erro na requisição: ausência do parâmetro 'q'.", safe=False)
 
     # Caso ambos os parâmetros tenham sido passados corretamente
     else:
@@ -48,6 +48,15 @@ def recipe(request):
         # Pegando os parãmetros passados
         ingredients = request.GET['i']
         query = request.GET['q']
+
+        # Mensangem de erro caso nenhum ingrediente tenha sido passado
+        if ingredients == "":
+            return JsonResponse("Erro na requisição: é necessário passar pelo menos 1 ingrediente no parâmetro 'i'.", safe=False)
+
+        # Mensagem de erro caso nenhuma query tenha sido passada
+        if query == "":
+            return JsonResponse("Erro na requisição: é necessário passar query no parâmetro 'q'.", safe=False)
+
 
         # Utilizando a Recipe Puppy API
         url = "http://www.recipepuppy.com/api/?i=" + ingredients + "&q=" + query
@@ -119,7 +128,7 @@ def age(request, format=None):
 
     # Mensagem de erro caso a data de aniversário não esteja dividida por -
     if not "-" in request.data["birthdate"]:
-        return Response("Erro no parâmetro birthdate. O formato das datas a serem passadas é YYYY-MM-DD.")
+        return Response("Erro no parâmetro birthdate. O formato das datas a serem passadas exige o uso de '-' para dividir em Ano-Mês-Dia da seguinte forma: YYYY-MM-DD.")
 
     # Mensagem de erro caso data aleatória não tenha sido passada
     if not "random_date" in request.data:
@@ -127,7 +136,7 @@ def age(request, format=None):
 
     # Mensagem de erro caso a data aleatória não esteja dividida por -
     if not "-" in request.data["random_date"]:
-        return Response("Erro no parâmetro random_state. O formato das datas a serem passadas é YYYY-MM-DD.")
+        return Response("Erro no parâmetro random_date. O formato das datas a serem passadas exige o uso de '-' para dividir em Ano-Mês-Dia da seguinte forma: YYYY-MM-DD.")
     
 
     name = request.data["name"]
@@ -146,7 +155,7 @@ def age(request, format=None):
 
     # Mensagem de erro caso o ano não tenha sido passado como primeiro na data de aniversário
     if len(str(birthdate_year)) < 4:
-        return Response("Erro no parâmetro birthdate. O formato das datas a serem passadas é YYYY-MM-DD.")
+        return Response("Erro no parâmetro birthdate. O formato das datas a serem passadas é YYYY-MM-DD, e o valor do ano passado possui menos de 4 caracteres.")
 
     # Mensagem de erro caso o mês não tenha sido passado como segundo na data de aniversário
     if birthdate_month > 12:
@@ -166,7 +175,7 @@ def age(request, format=None):
 
     # Mensagem de erro caso o ano não tenha sido passado como primeiro na data aleatória
     if len(str(random_date_year)) < 4:
-        return Response("Erro no parâmetro random_date. O formato das datas a serem passadas é YYYY-MM-DD.")
+        return Response("Erro no parâmetro random_date. O formato das datas a serem passadas é YYYY-MM-DD, e o valor do ano passado possui menos de 4 caracteres.")
 
     # Mensagem de erro caso o mês não tenha sido passado como segundo na data aleatória
     if random_date_month > 12:
@@ -178,7 +187,7 @@ def age(request, format=None):
 
     # Mensagem de erro caso a data aleatória passada não seja depois da data em que a requisição for feita
     if date(random_date_year, random_date_month, random_date_day) <= datetime.now().date():
-        return Response("Erro no parâmetro random_state. Data passada não encontra-se após a data de hoje.")
+        return Response("Erro no parâmetro random_date. Data passada não encontra-se após a data de hoje.")
 
 
     # Cálculo da idade que a pessoa tem no momento da requisição e que ela terá na data do futuro
