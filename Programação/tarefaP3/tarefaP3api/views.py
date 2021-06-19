@@ -145,6 +145,10 @@ def age(request, format=None):
     if len(name) == 0:
         return Response("Erro no parâmetro name. Não é possível passar uma string vazia.")
 
+    # Mensaagem de erro caso tenha sido passado apenas um nome no parâmetro name
+    if len(name.split(" ")) < 2:
+        return Response("Erro no parâmetro name. É necessário colocar nome e ao menos um sobrenome, por exemplo: Rafael Fernandes.")
+
 
     # O parâmetro birthdate é tratado como uma string no formato YYYY-MM-DD
     # Dessa forma, utilizo a função split para separar corretamente YYYY, MM e DD
